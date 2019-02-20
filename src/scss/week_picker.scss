@@ -1,0 +1,40 @@
+.week-picker .DayPicker-Month {
+  border-collapse: separate;
+}
+.week-picker .DayPicker-WeekNumber {
+  outline: none;
+}
+.week-picker .DayPicker-Day {
+  outline: none;
+  border: 1px solid transparent;
+}
+.week-picker .DayPicker-Day--hoverRange {
+  background-color: #EFEFEF !important;
+}
+
+.week-picker .DayPicker-Day--selectedRange {
+  background-color: #aee8fe !important;
+  border-top-color: #86dbfe;
+  border-bottom-color: #86dbfe;
+  border-left-color: #aee8fe;
+  border-right-color: #aee8fe;
+}
+
+.week-picker .DayPicker-Day--selectedRangeStart {
+  background-color: #86dbfe !important;
+  border-left: 1px solid #86dbfe;
+}
+
+.week-picker .DayPicker-Day--selectedRangeEnd {
+  background-color: #86dbfe !important;
+  border-right: 1px solid #86dbfe;
+}
+
+.week-picker .DayPicker-Day--selectedRange:not(.DayPicker-Day--outside).DayPicker-Day--selected,
+.week-picker .DayPicker-Day--hoverRange:not(.DayPicker-Day--outside).DayPicker-Day--selected {
+  border-radius: 0 !important;
+  color: black !important;
+}
+.week-picker .DayPicker-Day--hoverRange:hover {
+  border-radius: 0 !important;
+}

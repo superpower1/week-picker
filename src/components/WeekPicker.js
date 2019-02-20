@@ -26,22 +26,47 @@ function getWeekRange(date) {
   };
 }
 
+/*
+* This function is to check if selected day is available for weekly insight
+* User can only selet weeks before the current week
+*/
+function checkIfAvailable(date) {
+  const startDateOfWeek = moment().startOf('week');
+  return startDateOfWeek.diff(date, 'days')>0;
+}
+
 class WeekPicker extends React.Component {
-  state = {
-    hoverRange: undefined,
-    selectedDays: [],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showCalendar: false,
+      hoverRange: undefined,
+      selectedDays: [],
+    };
+  }
+
+  componentDidMount() {
+    this.handleDayChange(moment().subtract(1, 'weeks'));
+  }
+
+  toggleCalendar = () => {
+    this.setState({showCalendar: !this.state.showCalendar})
+  }
 
   handleDayChange = date => {
-    this.setState({
-      selectedDays: getWeekDays(getWeekRange(date).from),
-    });
+    if (checkIfAvailable(date)) {
+      this.setState({
+        selectedDays: getWeekDays(getWeekRange(date).from),
+      });
+    }
   };
 
   handleDayEnter = date => {
-    this.setState({
-      hoverRange: getWeekRange(date),
-    });
+    if (checkIfAvailable(date)) {
+      this.setState({
+        hoverRange: getWeekRange(date),
+      });
+    }
   };
 
   handleDayLeave = () => {
@@ -50,6 +75,9 @@ class WeekPicker extends React.Component {
     });
   };
 
+  /*
+  * This will fire when user click on week number (which is currently disabled)
+  */
   handleWeekClick = (weekNumber, days, e) => {
     this.setState({
       selectedDays: days,
@@ -74,23 +102,27 @@ class WeekPicker extends React.Component {
     };
 
     return (
-      <div className="SelectedWeekExample">
-        <DayPicker
-          selectedDays={selectedDays}
-          showWeekNumbers
-          showOutsideDays
-          modifiers={modifiers}
-          onDayClick={this.handleDayChange}
-          onDayMouseEnter={this.handleDayEnter}
-          onDayMouseLeave={this.handleDayLeave}
-          onWeekClick={this.handleWeekClick}
-        />
-        {selectedDays.length === 7 && (
-          <div>
-            {moment(selectedDays[0]).format('LL')} –{' '}
-            {moment(selectedDays[6]).format('LL')}
+      <div>
+        <div onClick={this.toggleCalendar}>
+          {moment(selectedDays[0]).format('LL')} –{' '}
+          {moment(selectedDays[6]).format('LL')}
+        </div>
+        {
+          this.state.showCalendar &&
+          <div className="week-picker animated fadeIn fadeOut">
+            <DayPicker
+              selectedDays={selectedDays}
+              // showWeekNumbers
+              showOutsideDays
+              modifiers={modifiers}
+              onDayClick={this.handleDayChange}
+              onDayMouseEnter={this.handleDayEnter}
+              onDayMouseLeave={this.handleDayLeave}
+              onWeekClick={this.handleWeekClick}
+              toMonth={new Date()}
+            />
           </div>
-        )}
+        }
       </div>
     );
   }

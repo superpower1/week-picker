@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import './scss/week_picker.css';
+import './scss/week_picker.scss';
 import WeekPicker from './components/WeekPicker';
 
 class App extends Component {
